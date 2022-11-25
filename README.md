@@ -27,7 +27,6 @@ Copy the code below in a R markdown file and render it.
 	title: Title of the report
 	author: Andrew Bash, Caroline Defou, Ettore Favoni
 	papersize: a4
-	bibliography: 
 	front-figure: 
 	fontsize: 12pt
 	abstract: "TBA"
