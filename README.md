@@ -44,6 +44,3 @@ Copy the code below in a R markdown file and render it.
 	y <- rnorm(x, mean = x)
 	plot(x, y)
 	```
-
-
-
