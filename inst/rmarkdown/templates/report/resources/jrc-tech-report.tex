@@ -463,6 +463,13 @@ $for(include-before)$
 $include-before$
 $endfor$
 
+% ----- Abstract 
+$if(abstract)$
+\thispagestyle{empty}
+\part*{Abstract}
+$abstract$
+\newpage
+$endif$
 
 % ----- Table of content
 $if(toc)$
@@ -471,15 +478,10 @@ $if(toc)$
 \newpage
 $endif$
 
+% Roman page numbering 
+% before body 
 \setcounter{page}{1}
 \pagenumbering{Roman}
-
-% ----- Abstract 
-$if(abstract)$
-\specialsec{Abstract}
-$abstract$
-\newpage
-$endif$
 
 % ------- Foreword 
 $if(foreword)$
