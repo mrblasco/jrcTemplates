@@ -447,8 +447,7 @@ $endif$
 $if(front-figure)$
 \newcommand{\FrontFigure}{
 	\centering
-	\noindent
-	\makebox[\paperwidth]{\includegraphics[width=1.1\paperwidth, height=200pt]{$front-figure$}}
+	\includegraphics[width=\paperwidth, height=200pt]{$front-figure$}
 	}
 $else$
 \newcommand{\FrontFigure}{}
@@ -458,13 +457,20 @@ $endif$
 \def\frontpage{
 	\thispagestyle{empty}
 	\newgeometry{margin=0pt}
-	\setlength{\unitlength}{1in}
+	%\setlength{\unitlength}{1in}
 	\begin{picture}(0,0)
-		\put(0,-2.5){\includegraphics[width=\paperwidth]{skeleton/EC_banner.pdf}}
+		\put(-4pt,-90pt){
+			\begin{minipage}{\paperwidth}
+				\noindent
+				\begin{flushleft}
+				\includegraphics[width=\paperwidth]{skeleton/EC_banner.pdf}
+				\end{flushleft}
+			\end{minipage}
+			}
 		\put(0.1\paperwidth, -0.35\paperheight){
 			\parbox{0.75\paperwidth}{
 				\begin{flushleft}
-				\sffamily\Huge \@title 
+				\sffamily\Huge \@title
 				\end{flushleft}
 			}		
 		}
@@ -478,7 +484,7 @@ $endif$
 				\sffamily\large\textbf {\@date}
 			}
 		}
-		\put(0,-\paperheight){\FrontFigure}
+		\put(-4pt,-\paperheight){\FrontFigure}
 	\end{picture}
 	\vfill
 	\begin{picture}(1,0.1)
