@@ -181,8 +181,6 @@ $if(numbersections)$
 $else$
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 $endif$
-$if(beamer)$
-$else$
 $if(block-headings)$
 % Make \paragraph and \subparagraph free-standing
 \ifx\paragraph\undefined\else
@@ -193,7 +191,6 @@ $if(block-headings)$
   \let\oldsubparagraph\subparagraph
   \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
-$endif$
 $endif$
 $if(pagestyle)$
 \pagestyle{$pagestyle$}
@@ -280,6 +277,7 @@ $endif$
 $if(verbatim-in-note)$
 \VerbatimFootnotes % allow verbatim text in footnotes
 $endif$
+% --------- Hypersetup / title-meta
 \hypersetup{
 $if(title-meta)$
   pdftitle={$title-meta$},
@@ -308,22 +306,14 @@ $else$
   hidelinks,
 $endif$
 $endif$
-  pdfcreator={LaTeX via pandoc}}
+pdfcreator={LaTeX via pandoc}
+}
 
 $if(title)$
 \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
 $endif$
 $if(subtitle)$
-$if(beamer)$
-$else$
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-$endif$
-\subtitle{$subtitle$}
+\newcommand{\subtitle}{$subtitle$}
 $endif$
 \author{$for(author)$$author$$sep$ \and $endfor$}
 \date{$date$}
@@ -355,7 +345,9 @@ $endif$
 $if(front-figure)$
 \newcommand{\FrontFigure}{
 	\centering
-	\includegraphics[width=\paperwidth, height=200pt]{$front-figure$}
+	\includegraphics[width=\paperwidth, 
+		height=200pt, 
+		keepaspectratio=false]{$front-figure$}
 	}
 $else$
 \newcommand{\FrontFigure}{}
@@ -371,14 +363,21 @@ $endif$
 			\begin{minipage}{\paperwidth}
 				\noindent
 				\begin{flushleft}
-				\includegraphics[width=\paperwidth]{skeleton/EC_banner.pdf}
+				\includegraphics*[width=\paperwidth]{skeleton/EC_banner.pdf}
 				\end{flushleft}
 			\end{minipage}
 			}
 		\put(0.1\paperwidth, -0.35\paperheight){
 			\parbox{0.75\paperwidth}{
 				\begin{flushleft}
-				\sffamily\Huge \@title
+				\sffamily\Huge\@title
+				\end{flushleft}
+			}		
+		}
+		\put(0.1\paperwidth, -0.45\paperheight){
+			\parbox{0.75\paperwidth}{
+				\begin{flushleft}
+				\sffamily\Large\color{BlueTitle}\subtitle
 				\end{flushleft}
 			}		
 		}
@@ -457,13 +456,13 @@ $endif$
 
 \begin{document}
 
+% ------ Front page 
+\frontpage
+
 $for(include-before)$
 $include-before$
 $endfor$
 
-% ------ Fronte page 
-\frontpage
-\pagenumbering{Roman}
 
 % ----- Table of content
 $if(toc)$
@@ -473,6 +472,7 @@ $if(toc)$
 $endif$
 
 \setcounter{page}{1}
+\pagenumbering{Roman}
 
 % ----- Abstract 
 $if(abstract)$
@@ -504,6 +504,8 @@ $endif$
 $if(lot)$
 \listoftables
 $endif$
+
+% ----- Line stretch 
 $if(linestretch)$
 \setstretch{$linestretch$}
 $endif$
