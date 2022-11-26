@@ -446,7 +446,9 @@ $endif$
 \usepackage{geometry}
 $if(front-figure)$
 \newcommand{\FrontFigure}{
-	\includegraphics[width=\paperwidth,height=0.2\paperheight]{$front-figure$}
+	\centering
+	\noindent
+	\makebox[\paperwidth]{\includegraphics[width=1.1\paperwidth, height=200pt]{$front-figure$}}
 	}
 $else$
 \newcommand{\FrontFigure}{}
@@ -456,9 +458,10 @@ $endif$
 \def\frontpage{
 	\thispagestyle{empty}
 	\newgeometry{margin=0pt}
+	\setlength{\unitlength}{1in}
 	\begin{picture}(0,0)
-	\put(0,-0.24\paperheight){\includegraphics[width=\paperwidth]{skeleton/EC_banner.pdf}}
-		\put(0.1\paperwidth, -0.4\paperheight){
+		\put(0,-2.5){\includegraphics[width=\paperwidth]{skeleton/EC_banner.pdf}}
+		\put(0.1\paperwidth, -0.35\paperheight){
 			\parbox{0.75\paperwidth}{
 				\begin{flushleft}
 				\sffamily\Huge \@title 
