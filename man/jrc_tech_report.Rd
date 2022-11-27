@@ -2,7 +2,7 @@
 % Please edit documentation in R/formats.R
 \name{jrc_tech_report}
 \alias{jrc_tech_report}
-\title{Output formats for the JRC reportss}
+\title{Output formats for the JRC reports}
 \usage{
 jrc_tech_report(...)
 }
