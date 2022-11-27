@@ -46,8 +46,8 @@ Copy the code below in a R markdown file named paper.Rmd and then render it.
 	plot(x, y)
 	```
 
-## Paramters
+## Front figure
 
+To show the front figure, you should replace the `front-figure` variable with the path to an image on your computer (`front-figure: my/path/imagename.jpg`). Some good images can be downloaded from [here](https://unsplash.com/photos/wQLAGv4_OYs). 
 
-`front-figure` = path to image for figure on front page
 
