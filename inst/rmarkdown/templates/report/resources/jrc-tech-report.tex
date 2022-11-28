@@ -312,9 +312,7 @@ pdfcreator={LaTeX via pandoc}
 $if(title)$
 \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
 $endif$
-$if(subtitle)$
 \newcommand{\subtitle}{$subtitle$}
-$endif$
 \author{$for(author)$$author$$sep$ \and $endfor$}
 \date{$date$}
 
