@@ -301,28 +301,10 @@ $endif$
 pdfcreator={LaTeX via pandoc}
 }
 
-$if(title)$
-\title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
-$else$
-\title{Report}
-$endif$
-\newcommand{\subtitle}{$subtitle$}
-\author{$for(author)$$author$$sep$ \and $endfor$}
-\date{$date$}
 
 % ============================================================
-% DOCUMENT SIZE 
-%
-% The size of the document is set to fully use the space of
-% a UNI A4 paper
+% Additional commands 
 % ============================================================
-\textheight 255mm
-\divide\textheight by \baselineskip
-\multiply\textheight by \baselineskip
-\advance\textheight by \topskip
-\textwidth=160mm
-
-% Additional commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \makeatletter 
 
@@ -330,12 +312,22 @@ $endif$
 \def\@contact{}
 \def\contact#1{\gdef\@contact{#1}}
 
+% Notice
+\def\@notice{}
+\def\notice#1{\gdef\@notice{#1}}
+
+% Notice
+\def\@bottomnotice{}
+\def\bottomnotice#1{\gdef\@bottomnotice{#1}}
+
 % WEBSITE
 \def\@website{}
 \def\website#1{\gdef\@website{#1}}
 
 % ADDRESS
-\def\@ddress{Joint Research Centre, Via Enrico Fermi 2749, 21027 Ispra (VA), Italy}
+\def\@ddress{
+    Joint Research Centre, Via Enrico Fermi 2749, 21027 Ispra (VA), Italy
+}
 \def\address#1{\gdef\@ddress{#1}}
 
 % EMAIL
@@ -373,7 +365,6 @@ $endif$
 \def\@isbnpdf{}
 \def\isbnpdf#1{\gdef\@isbnpdf{#1}
 							 \gdef\@pubinfo{1}}
-
 % ISSNPDF
 \def\@issnpdf{}
 \def\issnpdf#1{\gdef\@issnpdf{#1}
@@ -412,6 +403,27 @@ $endif$
 \makeatother  
 
 
+$if(title)$
+\title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$else$
+\title{Report}
+$endif$
+\newcommand{\subtitle}{$subtitle$}
+\author{$for(author)$$author$$sep$ \and $endfor$}
+\date{$date$}
+
+% Name, email, address, etc. of contacting author
+\contact{$for(contact)$$contact$$sep$ \\~\\ $endfor$}
+
+$if(notice)$
+\notice{$notice$}
+$endif$
+$if(howtocite)$
+\howtocite{$for(howtocite)$$howtocite$$sep$ \\~\\ $endfor$}
+$endif$
+
+
+% ============================================================
 % FRONT PAGE 
 % ============================================================
 \usepackage{graphicx}
@@ -427,49 +439,55 @@ $else$
 \newcommand{\FrontFigure}{}
 $endif$
 
+%\setlength{\unitlength}{1in}
+\renewcommand{\and}{\\} % for the authors ... 
+
 % ----- Front page 
 \makeatletter
-\renewcommand{\and}{, } % for the authors ... 
 \def\frontpage{
 	\thispagestyle{empty}
 	\newgeometry{margin=0pt}
-	%\setlength{\unitlength}{1in}
 	\begin{picture}(0,0)
 		\put(-4pt,-90pt){
+		    % Top Banner 
 			\begin{minipage}{\paperwidth}
 				\noindent
 				\begin{flushleft}
 				\includegraphics*[width=\paperwidth]{skeleton/EC_banner.pdf}
 				\end{flushleft}
 			\end{minipage}
+		}
+		% Title
+		\put(0, -0.35\paperheight){
+			\parbox{\textwidth}{
+				\begin{center}
+				\sffamily\Huge\color{Gray}\@title \\~\\
+				% subtitle 
+		        \ifx \@subtitle                
+		            \empty 
+		        \else
+    				\sffamily\Large\color{BlueTitle}\subtitle
+		        \fi
+				\end{center}
 			}
-		\put(0.1\paperwidth, -0.35\paperheight){
-			\parbox{0.75\paperwidth}{
-				\begin{flushleft}
-				\sffamily\Huge\@title
-				\end{flushleft}
-			}		
 		}
-		\put(0.1\paperwidth, -0.45\paperheight){
-			\parbox{0.75\paperwidth}{
-				\begin{flushleft}
-				\sffamily\Large\color{BlueTitle}\subtitle
-				\end{flushleft}
-			}		
-		}
+		% Authors on the right 
 		\put(0.5\paperwidth, -0.6\paperheight){
 			\parbox{.4\paperwidth}{
 				\sffamily\large {\@author}
 			}
 		}
+		% Date 
 		\put(0.5\paperwidth, -0.7\paperheight){
 			\parbox{.4\paperwidth}{
 				\sffamily\large\textbf {\@date}
 			}
 		}
+		% Front figure 
 		\put(-4pt,-\paperheight){\FrontFigure}
 	\end{picture}
 	\vfill
+	% Bottom ribbon 
 	\begin{picture}(1,0.1)
 		\put(0.45\paperwidth, 0){
 			\includegraphics{skeleton/BottomRibbon.pdf}
@@ -483,29 +501,53 @@ $endif$
 \newcommand{\smallnotice}{\footnotesize} 
 \newcommand{\smallnoticebd}{\footnotesize\textbf} 
 
-% ------- Second page
+% ------- Notice page
 \makeatletter
 \def\noticePage{
     \thispagestyle{empty}
-    \begin{picture}(0, 0)
-        \put(-40, 0){
-            \noindent{\smallnoticebd Contact Information}\\
-            {\smallnotice 
-            \noindent Name: \@contact \\
-            \noindent Address: \@ddress\\
-            \noindent E-mail: \@email\\
-            \noindent Tel.: \@tel}
-		}
+    \begin{picture}(0, 0.2\paperheight)
+	\put(0, -50) {
+            \parbox{\textwidth} {
+		        \ifx \@notice                
+		            \empty 
+		        \else
+                    \noindent\smallnotice\textbf{Legal notice}
+                    \\~\\ % skip two lines
+                    {\smallnotice\noindent\@notice}
+                    \\~\\ \\~\\ % skip four lines
+		        \fi 
+		        \ifx \@contact 
+		            \empty 
+		        \else
+                    \noindent\smallnotice\textbf{Contact Information}
+                    \\~\\ % skip two lines
+                    {\smallnotice \noindent \@contact}
+                    \\~\\ \\~\\ % skip four lines
+                \fi
+		        \ifx \@howtocite 
+		            \empty 
+		        \else
+                    {\smallnotice \noindent \@howtocite}
+                \fi
+            }
+        }
     \end{picture}
     \newpage
 }
 \makeatother
+
+%            \noindent Name: \@contact \\
+%            \noindent Address: \@ddress\\
+%            \noindent E-mail: \@email\\
+%            \noindent Tel.: \@tel}
 
 
 %%%%%%%%%%%%%%%%%%%% Fonts, Colors %%%%%%%%%%%%%%%%%%%%
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{xcolor}
 \definecolor{BlueTitle}{rgb}{0.129, 0.61, 0.87} %33/255 156/255 223/255 
+\definecolor{BlueTitleDark}{rgb}{0.04, 0.18, 0.50} %33/255 156/255 223/255 
+\definecolor{Gray}{rgb}{0.30, 0.30, 0.30} %33/255 156/255 223/255 
 
 %%%%%%%%%%%%%%%%%%%% Sectioning %%%%%%%%%%%%%%%%%%%%
 \setcounter{secnumdepth}{4}

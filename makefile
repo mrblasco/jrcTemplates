@@ -1,5 +1,6 @@
 template :=$(HOME)/code/jrc/jrcTemplates/inst/rmarkdown/templates/report/resources/jrc-tech-report.tex
 
+all: 
 
 document:
 	Rscript -e 'devtools::document()'
