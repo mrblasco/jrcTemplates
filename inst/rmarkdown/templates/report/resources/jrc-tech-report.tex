@@ -21,9 +21,7 @@ $if(fontfamily)$
 $else$
 \usepackage{lmodern}
 $endif$
-$if(linestretch)$
 \usepackage{setspace}
-$endif$
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
@@ -42,26 +40,22 @@ $endif$
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 $if(mainfont)$
-  \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
+\setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
 $endif$
 $if(sansfont)$
-  \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
+\setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
 $endif$
-$if(monofont)$
-  \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$]{$monofont$}
+$if(monofont)$  \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$]{$monofont$}
 $endif$
-$for(fontfamilies)$
-  \newfontfamily{$fontfamilies.name$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]{$fontfamilies.font$}
+$for(fontfamilies)$  \newfontfamily{$fontfamilies.name$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]{$fontfamilies.font$}
 $endfor$
 $if(mathfont)$
 $if(mathspec)$
-  \ifXeTeX
-    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-  \else
-    \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+  \ifXeTeX \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+  \else   \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
   \fi
 $else$
-  \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+\setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
 $endif$
 $endif$
 $if(CJKmainfont)$
@@ -71,13 +65,11 @@ $if(CJKmainfont)$
   \fi
 $endif$
 $if(luatexjapresetoptions)$
-  \ifLuaTeX
-    \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
+  \ifLuaTeX \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
   \fi
 $endif$
 $if(CJKmainfont)$
-  \ifLuaTeX
-    \usepackage[$for(luatexjafontspecoptions)$$luatexjafontspecoptions$$sep$,$endfor$]{luatexja-fontspec}
+  \ifLuaTeX \usepackage[$for(luatexjafontspecoptions)$$luatexjafontspecoptions$$sep$,$endfor$]{luatexja-fontspec}
     \setmainjfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
   \fi
 $endif$
@@ -311,6 +303,8 @@ pdfcreator={LaTeX via pandoc}
 
 $if(title)$
 \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$else$
+\title{Report}
 $endif$
 \newcommand{\subtitle}{$subtitle$}
 \author{$for(author)$$author$$sep$ \and $endfor$}
@@ -328,14 +322,96 @@ $endif$
 \advance\textheight by \topskip
 \textwidth=160mm
 
-%\oddsidemargin=210mm
-%\advance\oddsidemargin -\textwidth
-%\divide\oddsidemargin \tw@
-%\advance\oddsidemargin -1in
-%\evensidemargin=\oddsidemargin
-%\addtolength{\topmargin}{-25mm}
+% Additional commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ============================================================
+\makeatletter 
+
+% CONTACT
+\def\@contact{}
+\def\contact#1{\gdef\@contact{#1}}
+
+% WEBSITE
+\def\@website{}
+\def\website#1{\gdef\@website{#1}}
+
+% ADDRESS
+\def\@ddress{Joint Research Centre, Via Enrico Fermi 2749, 21027 Ispra (VA), Italy}
+\def\address#1{\gdef\@ddress{#1}}
+
+% EMAIL
+\def\@email{}
+\def\email#1{\gdef\@email{#1}}
+
+% TELEPHONE
+\def\@tel{}
+\def\tel#1{\gdef\@tel{#1}}
+
+% FAX
+\def\@fax{}
+\def\fax#1{\gdef\@fax{#1}}
+
+% PUBSY NUMBER
+\def\@pubsy{}
+\def\pubsy#1{\gdef\@pubsy{#1}}
+
+% EUR NUMBER
+\def\@eur{}
+\def\eur#1{\gdef\@eur{#1}
+					 \gdef\@pubinfo{1}}
+
+% ISBN
+\def\@isbn{}
+\def\isbn#1{\gdef\@isbn{#1}
+						\gdef\@pubinfo{1}}
+
+% ISSN
+\def\@issn{}
+\def\issn#1{\gdef\@issn{#1}
+						\gdef\@pubinfo{1}}
+
+% ISBN PDF
+\def\@isbnpdf{}
+\def\isbnpdf#1{\gdef\@isbnpdf{#1}
+							 \gdef\@pubinfo{1}}
+
+% ISSNPDF
+\def\@issnpdf{}
+\def\issnpdf#1{\gdef\@issnpdf{#1}
+							 \gdef\@pubinfo{1}}
+
+\def\@imageEx{}
+\def\@jrcyear{2022}
+
+% DOI
+\def\@doi{}
+\def\doi#1{\gdef\@doi{#1}
+					 \gdef\@pubinfo{1}}
+
+% DOIPDF
+\def\@doipdf{}
+\def\doipdf#1{\gdef\@doipdf{#1}
+							\gdef\@pubinfo{1}}
+
+% COUNTRY
+\def\@country{}
+\def\country#1{\gdef\@country{#1}}
+
+% LIST of photo credits list
+\def\@imageEx{}
+\def\imageEx#1{\gdef\@imageEx{#1}}
+
+% HOW TO CITE
+\def\@howtocite{}
+\def\howtocite#1{\gdef\@howtocite{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% CATALOG NUMBER
+\def\@catalogue{}
+\def\catalogue#1{\gdef\@catalogue{#1}}
+\makeatother  
+
+
 % FRONT PAGE 
 % ============================================================
 \usepackage{graphicx}
@@ -351,7 +427,9 @@ $else$
 \newcommand{\FrontFigure}{}
 $endif$
 
+% ----- Front page 
 \makeatletter
+\renewcommand{\and}{, } % for the authors ... 
 \def\frontpage{
 	\thispagestyle{empty}
 	\newgeometry{margin=0pt}
@@ -401,6 +479,28 @@ $endif$
 }
 \makeatother
 
+% Fonts ... 
+\newcommand{\smallnotice}{\footnotesize} 
+\newcommand{\smallnoticebd}{\footnotesize\textbf} 
+
+% ------- Second page
+\makeatletter
+\def\noticePage{
+    \thispagestyle{empty}
+    \begin{picture}(0, 0)
+        \put(-40, 0){
+            \noindent{\smallnoticebd Contact Information}\\
+            {\smallnotice 
+            \noindent Name: \@contact \\
+            \noindent Address: \@ddress\\
+            \noindent E-mail: \@email\\
+            \noindent Tel.: \@tel}
+		}
+    \end{picture}
+    \newpage
+}
+\makeatother
+
 
 %%%%%%%%%%%%%%%%%%%% Fonts, Colors %%%%%%%%%%%%%%%%%%%%
 \renewcommand{\familydefault}{\sfdefault}
@@ -434,7 +534,8 @@ $endif$
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
                                    {-3.25ex \@plus -1ex \@minus -.2ex}%
                                    {1.5ex \@plus .2ex}%
-                                   {\regularfont\normalsize\bfseries\color{BlueTitle}}}
+                                   {\regularfont\normalsize
+                                   \bfseries\color{BlueTitle}}}
 
 \renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
                                    {3.25ex \@plus1ex \@minus .2ex}%
@@ -458,7 +559,9 @@ $endif$
 
 % ------ Front page 
 \frontpage
-
+$if(noticepage)$
+\noticePage
+$endif$
 $for(include-before)$
 $include-before$
 $endfor$
