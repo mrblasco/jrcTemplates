@@ -8,7 +8,7 @@ document:
 install:
 	Rscript -e 'devtools::install()'
 
-test: inst/doc/report.Rmd
+test: inst/doc/example2.Rmd
 	Rscript -e 'jrcTemplates::render_tech_report("$<")'
 
 inst/doc/%.pdf : inst/doc/%.md
